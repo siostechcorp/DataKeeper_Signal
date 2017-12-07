@@ -20,7 +20,7 @@ Git bash 2.15.1 (or newer) for Windows also needs to be installed and reachable 
 This can be tested by running 'git --version' from a cmd prompt. It should return something similar to "git version 2.15.1.windows.2".
 
 # Steps to build re-distributable package installer
-Download the latest version of this repo. You can use 'git clone --recursive <repo>' from cmd to pull it from GitHub, or you can download the zip package off the webpage.
+Download the latest version of this repo. You can use 'git clone --recursive <repo>' from cmd to pull it from GitHub, or you can download the zip package off the webpage. If you are maintaining a repo you can update it to the latest version by running 'git submodule update --init --recursive'.
 
 (Optional)Extract the contents of the zip file to some location.
 
