@@ -12,6 +12,8 @@ Obviously the package generated using these steps is designed to be installed on
 Python 2.7.14 (or newer, x86 version) should be installed, and python.exe should be reachable via the PATH environment variable.
 This can be tested by running 'python -V' from a cmd prompt. It should return something similar to "Python 2.7.14"
 
+Certain modules required by Signal_iQ are downloaded and installed via pip during packaging. These are noted in the Signal_iQ\python\requirements.txt file.
+
 Py2exe 0.6.9 (or newer, Win32 version) should be installed.
 
 Git bash 2.15.1 (or newer) for Windows also needs to be installed and reachable via the PATH environment variable.
