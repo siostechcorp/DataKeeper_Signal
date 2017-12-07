@@ -5,7 +5,7 @@ cd $PSScriptRoot
 if(-Not (Test-Path -Path ".\build")) {
     mkdir .\build
 }
-mkdir .\build\Signal_iQ
+mkdir .\build\SignaliQ
 Copy-Item .\Signal_iQ\python\SignaliQ\* .\build\SignaliQ -Recurse
 Copy-Item .\scripts\Setup.py .\build
 Copy-Item .\Windows_Signal\report_event.py .\build
@@ -20,13 +20,14 @@ cd .\build
 Expand-Archive .\dist\library.zip -DestinationPath .\dist\library -Force
 
 # create the destination folder for the cert files
-$path =  ".\dist\library\SignaliQ\certs"
-if(-Not (Test-Path -Path $path)) { 
-    mkdir $path 
+$path =  ".\dist\library\SignaliQ"
+if(-Not (Test-Path -Path "$path\certs")) { 
+    mkdir "$path\certs"
 }
 
 # copy the cert files over and do some clean up.
-Copy-Item .\SignaliQ\certs\* $path
+Copy-Item .\SignaliQ\certs\* $path\certs
+Copy-Item .\SignaliQ\config.sample.ini $path
 Remove-Item .\dist\library.zip
 Rename-Item -Path ".\dist\library" -NewName "library.zip"
 Remove-Item -Path .\build -Recurse -Force
@@ -37,7 +38,11 @@ if(-Not (Test-Path -Path ".\json")) {
     mkdir ".\json"
 }
 Copy-Item ..\Windows_Signal\json\* .\json
+Copy-Item ..\json\* .\json 
 Copy-Item ..\Windows_Signal\*.ps1 .\
 Copy-Item ..\scripts\Install-DataKeeperSignal.ps1 .\
 
-cd $PSScriptRoot
+cd ..
+Compress-Archive -Path .\build\* -CompressionLevel Fastest -DestinationPath .\DataKeeper_Signal
+
+Remove-Item .\build -Recurse -Force
