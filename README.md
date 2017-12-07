@@ -30,5 +30,7 @@ Run '.\New-DataKeeperSignalBundle.ps1'
 
 
 A self-extracting exe file should be generated in the repo folder. This can be placed on any Windows Server 2012 R2 or 2016 VMware VM that is being monitored by SIOS iQ. To install DataKeeper_Signal on that VM simply double click the executable and follow the instructions. It will require the following values from the user:
+
 SIOS iQ admin credentials
+
 Windows (domain) admin credentials
