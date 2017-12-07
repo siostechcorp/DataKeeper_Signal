@@ -1,0 +1,8 @@
+[submodule "Signal_iQ"]
+	path = Signal_iQ
+	url = git@github.com:siostechcorp/Signal_iQ.git
+	branch = master
+[submodule "Windows_Signal"]
+	path = Windows_Signal
+	url = git@github.com:siostechcorp/Windows_Signal.git
+	branch = master
