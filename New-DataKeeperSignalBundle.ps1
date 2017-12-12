@@ -37,12 +37,23 @@ Remove-Item -Path .\*.py -Force
 if(-Not (Test-Path -Path ".\json")) { 
     mkdir ".\json"
 }
+
 Copy-Item ..\Windows_Signal\json\* .\json
 Copy-Item ..\json\* .\json 
 Copy-Item ..\Windows_Signal\*.ps1 .\
 Copy-Item ..\scripts\Install-DataKeeperSignal.ps1 .\
 
 cd ..
-Compress-Archive -Path .\build\* -CompressionLevel Fastest -DestinationPath .\DataKeeper_Signal
+
+Compress-Archive -Path .\build\* -CompressionLevel Fastest -DestinationPath .\DataKeeper_Signal -Force
+
+# create new SED file from sample
+$sed = Get-Content -Path ".\DataKeeper_Signal.SED"
+$sed = $sed | foreach { $_.Replace("<repopath>", $pwd) }
+$sed | Out-File -FilePath ".\sed.SED"
+
+&'iexpress' /n .\sed.SED
 
 Remove-Item .\build -Recurse -Force
+Remove-Item .\*.zip -Force
+Remove-Item .\sed.SED -Force
