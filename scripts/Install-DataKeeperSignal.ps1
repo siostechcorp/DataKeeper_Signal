@@ -36,7 +36,6 @@ $username = $credential.UserName
 $password = $credential.GetNetworkCredential().Password
 
 # new scheduled task properties to run the ps script every 5 minutes after boot
-$path = "C:\Program Files (x86)\SIOS\DataKeeper_Signal"
 $action = New-ScheduledTaskAction -Execute "Powershell.exe" -Argument "'$path\Send-Signal.ps1' -PyModule '$path\dist\report_event.exe' -EnvironmentID $environmentID"
 
 $triggers = [System.Collections.ArrayList]@()
