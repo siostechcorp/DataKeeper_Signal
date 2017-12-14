@@ -20,17 +20,17 @@ Git bash 2.15.1 (or newer) for Windows also needs to be installed and reachable 
 This can be tested by running 'git --version' from a cmd prompt. It should return something similar to "git version 2.15.1.windows.2".
 
 # Steps to build re-distributable package installer
-Download the latest version of this repo. You can use 'git clone --recursive <repo>' from cmd to pull it from GitHub, or you can download the zip package off the webpage. If you are maintaining a repo you can update it to the latest version by running 'git submodule update --init --recursive'.
+Download the latest version of this repo. You can use 'git clone <repo>' from cmd to pull it from GitHub, or you can download the zip package off the webpage. 
 
 (Optional)Extract the contents of the zip file to some location.
 
-In PowerShell v4.0 or newer, navigate to the DataKeeper_Signal folder.
+Using bash, navigate to the DataKeeper_Signal folder.
 
-Run '.\New-DataKeeperSignalBundle.ps1'
+Run './buildDKSignal.sh' (from bash).
 
 
 A self-extracting exe file should be generated in the repo folder. This can be placed on any Windows Server 2012 R2 or 2016 VMware VM that is being monitored by SIOS iQ. To install DataKeeper_Signal on that VM simply double click the executable and follow the instructions. It will require the following values from the user:
 
-SIOS iQ admin credentials
+SIOS iQ Environment admin credentials
 
 Windows (domain) admin credentials
