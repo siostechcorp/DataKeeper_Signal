@@ -7,21 +7,21 @@
                         "Memory allocation error (could be related to full resync)",
                         "New State = Paused, reason = Source was unable to complete volume write. (memory allocation failed)",
                         "Warning",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ],
                     "Unable to send packet request to the Target": [
                         "Mirror paused. Network failure.",
                         "New State = Paused, reason = Unable to send packet request to the Target.",
                         "Warning",
-                        "Performance",
+                        "Reliability",
                         "Network"
                     ],
                     "The High Water mark has been reached in the Async Write Queue": [
                         "Mirror paused. Write queue high water reached.",
                         "New State = Paused, reason = The High Water mark has been reached in the Async Write Queue.",
                         "Warning",
-                        "Performance",
+                        "Reliability",
                         "Network",
                         "Storage"
                     ]
@@ -31,7 +31,7 @@
                         "SRC_REMTARGET_ALLOC_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -40,7 +40,7 @@
                         "SRC_CREATESTRUCT_ALLOC_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -49,7 +49,7 @@
                         "REWIND_LOG_ALLOC_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -58,7 +58,7 @@
                         "BITMAP_READ_FILE_MEMORY_ALLOCATION_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -67,7 +67,7 @@
                         "BITMAP_CREATE_NO_MEMORY",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -76,7 +76,7 @@
                         "SNAPSHOT_BITMAP_ALLOC_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -85,7 +85,7 @@
                         "CANT_ALLOCATE_BUFFER",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -94,7 +94,7 @@
                         "SEQ_NUM_ARRAY_ALLOC_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -103,7 +103,7 @@
                         "TARG_LIST_ENTRY_ALLOC_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -112,7 +112,7 @@
                         "FLUSH_ALLOC_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 },
@@ -121,7 +121,7 @@
                         "SAVED_BITMAP_ALLOC_FAILED",
                         "Memory Allocation Failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute"
                     ]
                 }

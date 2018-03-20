@@ -7,7 +7,7 @@
                         "Resource failed (drive is offline, SQL Server role is offline, etc.) - IsAlive/LooksAlive",
                         "Cluster Resource failed",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Compute",
                         "Network",
                         "Storage"
@@ -18,7 +18,7 @@
                         "Node removed from cluster membership due to loss of communication (network)",
                         "Node removed from cluster membership due to loss of communication (network)",
                         "Warning",
-                        "Performance",
+                        "Reliability",
                         "Network"
                     ]
                 },
@@ -27,7 +27,7 @@
                         "Cluster service shut down due to loss of quorum (Network related)",
                         "Cluster service shut down due to loss of quorum (Network related)",
                         "Critical",
-                        "Performance",
+                        "Reliability",
                         "Network"
                     ]
                 }
