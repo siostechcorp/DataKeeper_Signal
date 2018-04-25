@@ -37,11 +37,11 @@ if( -Not $Password ) {
 }
 
 # create new Signal_iQ config.ini file from sample
-$config = Get-Content -Path "$path\dist\library.zip\SignaliQ\config.sample.ini"
+$config = Get-Content -Path "$path\dist\library.zip\SignaliQ\config.sample.ini" -Raw
 $config = $config | foreach { $_.Replace("no_such_host", $Hostname) }
 $config = $config | foreach { $_.Replace("change_this_value", $Password) }
 $config = $config | foreach { $_.Replace("admin", $Username) }
-$config | Out-File -FilePath "$path\dist\library.zip\SignaliQ\config.ini"
+$config | Out-File -FilePath "$path\dist\library.zip\SignaliQ\config.ini" -Encoding ascii
 
 # prompt user for (domain) admin credentials for creating new task
 if( -Not $AdminUsername -OR -Not $AdminPassword ) {
