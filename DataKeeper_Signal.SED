@@ -21,17 +21,19 @@ AdminQuietInstCmd=%AdminQuietInstCmd%
 UserQuietInstCmd=%UserQuietInstCmd%
 SourceFiles=SourceFiles
 [Strings]
-InstallPrompt=DataKeeper_Signal requires PowerShell version 5.1 or newer. Do you wish to continue with the installation?
+InstallPrompt=
 DisplayLicense=
-FinishMessage=Installation complete. Check Task Scheduler and verify that the DataKeeper_Signal task has been created.
+FinishMessage=
 TargetName=<repopath>\DataKeeper_Signal.exe
 FriendlyName=DataKeeper_Signal
-AppLaunched=PowerShell -Command "$p='C:\Program Files (x86)\SIOS';if(Test-Path $env:ExtMirrBase){$p=$env:ExtMirrBase+'\..\'}else{mkdir $p}$p+='\DataKeeper_Signal';Expand-Archive DataKeeper_Signal.zip $p;cd $p;.\Install-DataKeeperSignal"
+AppLaunched=PowerShell -Command ".\Expand-DataKeeperSignal;.\Install-DataKeeperSignal"
 PostInstallCmd=<None>
 AdminQuietInstCmd=
 UserQuietInstCmd=
 FILE0="DataKeeper_Signal.zip"
+FILE1="Expand-DataKeeperSignal.ps1"
 [SourceFiles]
 SourceFiles0=<repopath>\
 [SourceFiles0]
 %FILE0%=
+%FILE1%=
