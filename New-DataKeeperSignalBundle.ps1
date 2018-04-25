@@ -57,6 +57,5 @@ $sed | Out-File -FilePath ".\sed.SED"
 # wait a few seconds so iexpress has a chance to let go of its handle on the zip file so we can delete it
 Start-Sleep 5
 
-Remove-Item .\build -Recurse -Force
 Remove-Item .\*.zip -Force
 Remove-Item .\sed.SED -Force
