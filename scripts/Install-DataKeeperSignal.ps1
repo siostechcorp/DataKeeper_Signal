@@ -41,7 +41,7 @@ $action = New-ScheduledTaskAction -Execute "Powershell.exe" -Argument "'$path\Se
 $triggers = [System.Collections.ArrayList]@()
 
 # this trigger repeats for 10 years because of differences between how PSv4 and later versions deal with TimeSpan.MaxValue
-$triggers.Add((New-ScheduledTaskTrigger -Once -At ([System.DateTime]::Now) -RepetitionDuration (New-TimeSpan -Days 3650) -RepetitionInterval (New-TimeSpan -Minutes 5))) >$Null
+$triggers.Add((New-ScheduledTaskTrigger -Once:$False -At ([System.DateTime]::Now) -RepetitionDuration (New-TimeSpan -Days 3650) -RepetitionInterval (New-TimeSpan -Minutes 5))) >$Null
 $triggers.Add((New-ScheduledTaskTrigger -AtStartup)) >$Null
 
 # create the new task and start it right now
