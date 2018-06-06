@@ -1,39 +1,61 @@
-# Install-DataKeeperSignal.ps1
+#	Copyright (c) 2018 SIOS Technology Corp.
+#	Install-DataKeeperSignal.ps1
+#
+##############################################################################################
+
+[CmdletBinding()]
 Param(
-    [String] $Path = "C:\Program Files (x86)\SIOS\DataKeeper_Signal",
-    [String] $EnvironmentID = $Null,
-    [String] $Hostname = $Null,
-    [String] $Username = $Null,
-    [String] $Password = $Null,
-    [String] $AdminUsername = $Null,
-    [String] $AdminPassword = $Null
+	[Parameter(Mandatory=$True, Position=0)]
+	[String] $Path = "C:\Program Files (x86)\SIOS\DataKeeper_Signal",
+
+	[Parameter(Mandatory=$False, Position=1)]
+	[String] $EnvironmentID = $Null,
+
+	[Parameter(Mandatory=$False, Position=2)]
+	[String] $Hostname = $Null,
+
+	[Parameter(Mandatory=$False, Position=3)]
+	[String] $Username = $Null,
+
+	[Parameter(Mandatory=$False, Position=4)]
+	[String] $Password = $Null,
+
+	[Parameter(Mandatory=$False, Position=5)]
+	[String] $AdminUsername = $Null,
+
+	[Parameter(Mandatory=$False, Position=6)]
+	[String] $AdminPassword = $Null
 )
+
+# start logging
+$ErrorActionPreference="SilentlyContinue"
+Stop-Transcript | out-null
+$ErrorActionPreference = "Continue"
+Start-Transcript -Path "$env:temp\Install-DataKeeperSignal.log" -append
 
 # Use the ExtMirrBase location (if it exists) as a base location for installing dk signal
 if($env:ExtMirrBase -eq $Null) {
-    # DK not installed, so test default location to see if files were extracted successfully
-    if(-Not (Test-Path -Path $Path)) {
-        Write-Error "DataKeeper_Signal files were not found."
-        Start-Sleep
-        exit 1
-    }
+	# DK not installed, create signal folder wherever $Path points
+	if(-Not (Test-Path -Path $Path)) {
+		New-Item -Path $Path -ItemType Directory
+	}
 } else {
-    # DK is installed, install dk signal to it's parent folder
-    $path = "$env:ExtMirrBase\..\DataKeeper_Signal"
+	# DK is installed, install dk signal to it's parent folder
+	$Path = "$env:ExtMirrBase\..\DataKeeper_Signal"
 }
 
 # get properites needed for Signal_iQ config from user if not passed in
 if( -Not $EnvironmentID ) {
-    $EnvironmentID =  Read-Host "Please enter the ENVIRONMENT ID for your iQ appliance (format: 123456789)"
+	$EnvironmentID =  Read-Host "Please enter the ENVIRONMENT ID for your iQ appliance (format: 123456789)"
 }
 if( -Not $Hostname ) {
-    $Hostname = Read-Host "Please enter the Hostname for your iQ appliance"
+	$Hostname = Read-Host "Please enter the Hostname for your iQ appliance"
 }
 if( -Not $Username ) {
-    $Username = Read-Host "Please enter the ADMIN Username for your iQ appliance"
+	$Username = Read-Host "Please enter the ADMIN Username for your iQ appliance"
 }
 if( -Not $Password ) {
-    $Password = Read-Host "Please enter the ADMIN Password for your iQ appliance"
+	$Password = Read-Host "Please enter the ADMIN Password for your iQ appliance"
 }
 
 # create new Signal_iQ config.ini file from sample
@@ -45,20 +67,33 @@ $config | Out-File -FilePath "$path\dist\library.zip\SignaliQ\config.ini"
 
 # prompt user for (domain) admin credentials for creating new task
 if( -Not $AdminUsername -OR -Not $AdminPassword ) {
-    $message = "Enter administrator credentials to create and run a new Task. Domain administrator recommended."
-    $credential = $Host.UI.PromptForCredential("Administrator Credentials",$message,"$env:userdomain\$env:Username",$env:userdomain)
-    $AdminUsername = $credential.Username
-    $AdminPassword = $credential.GetNetworkCredential().Password
+	$message = "Enter administrator credentials to create and run a new Task. Domain administrator recommended."
+	$credential = $Host.UI.PromptForCredential("Administrator Credentials",$message,"$env:userdomain\$env:Username",$env:userdomain)
+	$AdminUsername = $credential.Username
+	$AdminPassword = $credential.GetNetworkCredential().Password
 }
 
-# new scheduled task properties to run the ps script every 5 minutes after boot
-$action = New-ScheduledTaskAction -Execute "Powershell.exe" -Argument "'$path\Send-Signal.ps1' -PyModule '$path\dist\report_event.exe' -EnvironmentID $EnvironmentID"
+# create a new sceduled task if it does not already exist
+if( -Not (Get-ScheduledTask "DataKeeper Signal") ) {
+	# new scheduled task properties to run the ps script every 5 minutes after boot
+	$action = New-ScheduledTaskAction -Execute "Powershell.exe" -Argument "'$path\Send-Signal.ps1' -PyModule '$path\dist\report_event.exe' -EnvironmentID $EnvironmentID"
 
-$triggers = [System.Collections.ArrayList]@()
+	$triggers = [System.Collections.ArrayList]@()
 
-# this trigger repeats for 10 years because of differences between how PSv4 and later versions deal with TimeSpan.MaxValue
-$triggers.Add((New-ScheduledTaskTrigger -Once:$False -At ([System.DateTime]::Now) -RepetitionDuration (New-TimeSpan -Days 3650) -RepetitionInterval (New-TimeSpan -Minutes 5))) >$Null
-$triggers.Add((New-ScheduledTaskTrigger -AtStartup)) >$Null
+	# this trigger repeats for 10 years because of differences between how PSv4 and later versions deal with TimeSpan.MaxValue
+	$triggers.Add((New-ScheduledTaskTrigger -Once:$False -At ([System.DateTime]::Now) -RepetitionDuration (New-TimeSpan -Days 3650) -RepetitionInterval (New-TimeSpan -Minutes 5))) >$Null
+	$triggers.Add((New-ScheduledTaskTrigger -AtStartup)) >$Null
 
-# create the new task and start it right now
-Register-ScheduledTask -Action $action -Trigger $triggers -TaskName "DataKeeper Signal" -Description "Scan for DataKeeper Signal events every 5 minutes; starts on boot." -RunLevel Highest -User $AdminUsername -Password $AdminPassword | Start-ScheduledTask
+	# create the new task and start it right now
+	Register-ScheduledTask -Action $action -Trigger $triggers -TaskName "DataKeeper Signal" -Description "Scan for DataKeeper Signal events every 5 minutes; starts on boot." -RunLevel Highest -User $AdminUsername -Password $AdminPassword | Start-ScheduledTask
+	if( -Not $? ) {
+		Write-Verbose "Failed to create scheduled task with user: '$AdminUsername' and pass: '$AdminPassword'"
+		# stop logging
+		Stop-Transcript
+		exit 1
+	}
+}
+
+# stop logging
+Stop-Transcript
+exit 0
