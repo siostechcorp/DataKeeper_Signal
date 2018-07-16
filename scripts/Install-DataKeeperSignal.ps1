@@ -36,7 +36,7 @@ Start-Transcript -Path "$env:temp\Install-DataKeeperSignal.log" -append
 # Create install directory if it doesn't exist
 if($Path -eq $Null) {
 	if($env:ExtMirrBase -eq $Null) {
-		$Path = "C:\Program Files (x86)\SIOS\DataKeeper_Signal"
+		$Path = "$env:ProgramFiles(x86)\\SIOS\\DataKeeper_Signal"
 	} else {
 		$Path = $env:ExtMirrBase + "\\..\\DataKeeper_Signal"
 	}
