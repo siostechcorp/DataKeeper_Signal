@@ -6,7 +6,7 @@
 [CmdletBinding()]
 Param(
 	[Parameter(Mandatory=$True, Position=0)]
-	[String] $Path = "C:\Program Files (x86)\SIOS\DataKeeper_Signal",
+	[String] $Path = $Null,
 
 	[Parameter(Mandatory=$False, Position=1)]
 	[String] $EnvironmentID = $Null,
@@ -33,15 +33,17 @@ Stop-Transcript | out-null
 $ErrorActionPreference = "Continue"
 Start-Transcript -Path "$env:temp\Install-DataKeeperSignal.log" -append
 
-# Use the ExtMirrBase location (if it exists) as a base location for installing dk signal
-if($env:ExtMirrBase -eq $Null) {
-	# DK not installed, create signal folder wherever $Path points
+# Create install directory if it doesn't exist
+if($Path -eq $Null) {
+	if($env:ExtMirrBase -eq $Null) {
+		$Path = "C:\Program Files (x86)\SIOS\DataKeeper_Signal"
+	} else {
+		$Path = $env:ExtMirrBase + "\\..\\DataKeeper_Signal"
+	}
+} else {
 	if(-Not (Test-Path -Path $Path)) {
 		New-Item -Path $Path -ItemType Directory
 	}
-} else {
-	# DK is installed, install dk signal to it's parent folder
-	$Path = "$env:ExtMirrBase\..\DataKeeper_Signal"
 }
 
 # get properites needed for Signal_iQ config from user if not passed in
