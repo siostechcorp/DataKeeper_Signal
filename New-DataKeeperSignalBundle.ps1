@@ -42,6 +42,7 @@ Copy-Item ..\Windows_Signal\json\* .\json
 Copy-Item ..\json\* .\json 
 Copy-Item ..\Windows_Signal\*.ps1 .\
 Copy-Item ..\scripts\Install-DataKeeperSignal.ps1 .\
+Copy-Item ..\scripts\Test-IQCredentials.ps1 .\
 
 cd ..
 
